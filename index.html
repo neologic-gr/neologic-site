@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Neologic — Extreme Data Tools</title>
+  <meta name="description" content="Neologic - Extreme Data Tools" />
+
+  <!-- Favicon setup -->
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="icon" href="favicon-32.png" type="image/png">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="manifest" href="site.webmanifest">
+  <style>
+    :root {
+      --bg: #f3f5f7;
+      --card: #ffffff;
+      --text: #111827;
+      --muted: #6b7280;
+      --line: #e5e7eb;
+      --blue1: #22b5e8;
+      --blue2: #1d78db;
+      --blue3: #1d43c4;
+      --dark: #171717;
+      --shadow: 0 20px 50px rgba(17, 24, 39, 0.08);
+      --radius: 24px;
+      --max: 1180px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(34,181,232,0.10), transparent 22%),
+        radial-gradient(circle at bottom right, rgba(29,67,196,0.10), transparent 22%),
+        var(--bg);
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    img {
+      -webkit-user-drag: none;
+      user-drag: none;
+      pointer-events: none;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .wrap {
+      width: min(calc(100% - 32px), var(--max));
+      margin: 0 auto;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: saturate(180%) blur(14px);
+      background: linear-gradient(
+        rgba(255,255,255,0.7),
+        rgba(255,255,255,0.7)
+  );
+  
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 16px 0;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      min-width: 0;
+    }
+
+    .brand-logo {
+      width: clamp(220px, 25vw, 430px);
+      aspect-ratio: 3.8 / 1;
+      background: url('02.png') no-repeat left center / contain;
+      flex: 0 0 auto;
+      pointer-events: none;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .nav-links a {
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: #303846;
+      font-size: 14px;
+      font-weight: 600;
+      transition: 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      background: #ffffff;
+      box-shadow: 0 10px 24px rgba(17, 24, 39, 0.06);
+    }
+
+    .hero {
+      padding: 54px 0 28px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 26px;
+      align-items: stretch;
+    }
+
+    .hero-card,
+    .panel,
+    .tool-card,
+    .mini-card {
+      background: rgba(255,255,255,0.84);
+      border: 1px solid rgba(255,255,255,0.75);
+      box-shadow: var(--shadow);
+      border-radius: var(--radius);
+      backdrop-filter: blur(10px);
+    }
+
+    .hero-card {
+      padding: clamp(26px, 4vw, 46px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-card::before {
+      content: "";
+      position: absolute;
+      inset: auto -80px -80px auto;
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(34,181,232,0.18), transparent 66%);
+      pointer-events: none;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.76);
+      border: 1px solid var(--line);
+      color: #334155;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: linear-gradient(180deg, var(--blue1), var(--blue3));
+      box-shadow: 0 0 0 0 rgba(34,181,232,0.45);
+      animation: pulse 1.8s infinite;
+    }
+
+    h1 {
+      margin: 14px 0 10px;
+      font-size: clamp(32px, 4.5vw, 56px);
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      font-weight: 600;
+    }
+
+    .hero-card p {
+      margin: 0;
+      max-width: 700px;
+      font-size: clamp(13px, 1.05vw, 16px);
+      line-height: 1.6;
+      color: var(--muted);
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 28px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 0 18px;
+      border-radius: 14px;
+      font-weight: 700;
+      font-size: 15px;
+      transition: 0.2s ease;
+      border: 1px solid transparent;
+    }
+
+    .btn-primary {
+      background: linear-gradient(180deg, var(--blue1), var(--blue3));
+      color: #fff;
+      box-shadow: 0 16px 30px rgba(29, 67, 196, 0.18);
+    }
+
+    .btn-secondary {
+      background: #fff;
+      color: #1f2937;
+      border-color: var(--line);
+    }
+
+    .btn:hover { transform: translateY(-1px); }
+
+    .panel {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .panel h3,
+    .section-title {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+    }
+
+    .panel p,
+    .section-copy {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.65;
+      font-size: 15px;
+    }
+
+    .coming-box {
+      margin-top: -20px;
+      padding: 8px 0 0;
+      border-radius: 0;
+      background: transparent;
+      border: 0;
+      display: grid;
+      place-items: center;
+      min-height: 170px;
+    }
+
+    .spinner-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transform: translateX(-10px);
+      gap: 10px;
+    }
+
+    .spinner {
+      position: relative;
+      width: 108px;
+      height: 108px;
+      margin-top: -20px;
+      animation: rotate 1.25s linear infinite;
+    }
+
+    .spinner span {
+      position: absolute;
+      width: 8px;
+      height: 24px;
+      border-radius: 99px;
+      background: linear-gradient(180deg, #22b5e8, #1d43c4);
+      left: 50%;
+      top: 50%;
+      margin-left: -4px;
+      margin-top: -12px;
+      transform-origin: 50% 42px;
+    }
+
+	.spinner span:nth-child(1)  { transform: rotate(0deg) translateY(-42px); opacity: 1; }
+	.spinner span:nth-child(2)  { transform: rotate(30deg) translateY(-42px); opacity: 0.9; }
+	.spinner span:nth-child(3)  { transform: rotate(60deg) translateY(-42px); opacity: 0.8; }
+	.spinner span:nth-child(4)  { transform: rotate(90deg) translateY(-42px); opacity: 0.7; }
+	.spinner span:nth-child(5)  { transform: rotate(120deg) translateY(-42px); opacity: 0.6; }
+	.spinner span:nth-child(6)  { transform: rotate(150deg) translateY(-42px); opacity: 0.5; }
+	.spinner span:nth-child(7)  { transform: rotate(180deg) translateY(-42px); opacity: 0.4; }
+	.spinner span:nth-child(8)  { transform: rotate(210deg) translateY(-42px); opacity: 0.3; }
+	.spinner span:nth-child(9)  { transform: rotate(240deg) translateY(-42px); opacity: 0.25; }
+	.spinner span:nth-child(10) { transform: rotate(270deg) translateY(-42px); opacity: 0.2; }
+	.spinner span:nth-child(11) { transform: rotate(300deg) translateY(-42px); opacity: 0.15; }
+	.spinner span:nth-child(12) { transform: rotate(330deg) translateY(-42px); opacity: 0.1; }
+
+    .coming-text {
+      font-size: 15px;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      margin-top: 120px;
+      color: #20252c;
+    }
+
+    .section {
+      padding: 20px 0 16px;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+    }
+
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .tool-card {
+      padding: 22px;
+      transition: 0.22s ease;
+      min-height: 210px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 14px;
+    }
+
+    .tool-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 24px 50px rgba(17,24,39,0.10);
+    }
+
+    .tool-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 14px; /*10px*/
+
+    }
+
+    .icon-box {
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;
+      background: linear-gradient(180deg, rgba(34,181,232,0.15), rgba(29,67,196,0.10));
+      display: grid;
+      place-items: center;
+      color: #1f4bd1;
+      font-weight: 800;
+      font-size: 18px;
+      flex: 0 0 auto;
+    }
+
+    .badge {
+      padding: 8px 10px;
+      border-radius: 999px;
+      background: #f3f4f6;
+      color: #4b5563;
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .tool-card h4 {
+      margin: 0;
+      font-size: 20px;
+      letter-spacing: -0.03em;
+    }
+
+    .tool-card p {
+      margin: 8px 0 0;
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 15px;
+    }
+
+    .tool-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 700;
+      color: #1d4ed8;
+    }
+
+    .mini-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      padding-bottom: 34px;
+    }
+
+    .mini-card {
+      padding: 20px 22px;
+    }
+
+    .mini-card strong {
+      display: block;
+      font-size: 18px;
+      margin-bottom: 8px;
+      letter-spacing: -0.03em;
+    }
+
+    .mini-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 15px;
+    }
+
+    footer {
+      padding: 6px 0 38px;
+      color: #667085;
+      font-size: 14px;
+      text-align: center;
+    }
+
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(34,181,232,0.45); }
+      70% { box-shadow: 0 0 0 12px rgba(34,181,232,0); }
+      100% { box-shadow: 0 0 0 0 rgba(34,181,232,0); }
+    }
+
+    @keyframes rotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    @media (max-width: 1050px) {
+      .hero-grid,
+      .tools-grid,
+      .mini-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .nav {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .nav-links {
+        justify-content: flex-start;
+      }
+
+      .hero {
+        padding-top: 28px;
+      }
+
+      .hero-card,
+      .panel,
+      .tool-card,
+      .mini-card {
+        border-radius: 20px;
+      }
+
+      h1 {
+        font-size: 42px;
+      }
+
+      .brand-logo {
+        width: min(100%, 280px);
+        min-width: 220px;
+      }
+
+      .coming-text {
+        font-size: 13px;
+        letter-spacing: 0.26em;
+      }
+    }
+    }
+  </style>
+</head>
+<body oncontextmenu="return false;">
+  <header class="topbar">
+    <div class="wrap nav">
+      <a class="brand" href="#top" aria-label="Neologic home">
+        <div class="brand-logo" aria-hidden="true"></div>
+      </a>
+
+      <nav class="nav-links">
+        <a href="#tools">Εργαλεία</a>
+        <a href="#launching">Coming soon</a>
+        <a href="#about">Σχετικά</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <article class="hero-card">
+          <div class="eyebrow"><span class="dot"></span> Extreme Data Tools</div>
+          <h1>Έξυπνα εργαλεία, καθαρή λογική, άμεσο αποτέλεσμα.</h1>
+          <p>
+            Το Neologic συγκεντρώνει πρακτικά online εργαλεία και εξειδικευμένες εφαρμογές,
+            σχεδιασμένες για ταχύτητα, απλότητα και πραγματική χρησιμότητα.
+          </p>
+
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#tools">Δες τα εργαλεία</a>
+            <a class="btn btn-secondary" href="#launching">Τι ετοιμάζεται</a>
+          </div>
+        </article>
+
+        <aside class="panel" id="launching">
+          <div>
+            <h3>Νέα εργαλεία έρχονται</h3>
+            <p>
+              Η πλατφόρμα επεκτείνεται με calculators, smart utilities και πιο εξειδικευμένες λύσεις.
+            </p>
+          </div>
+
+          <div class="coming-box">
+            <div class="spinner-wrap">
+              <div class="spinner" aria-hidden="true">
+                <span></span><span></span><span></span><span></span><span></span><span></span>
+                <span></span><span></span><span></span><span></span><span></span><span></span>
+              </div>
+              <div class="coming-text">Coming Soon</div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section" id="tools">
+      <div class="wrap">
+       
+
+        <div class="tools-grid">
+          <article class="tool-card">
+            <div>
+              <div class="tool-top">
+                <div class="icon-box">01</div>
+                <div class="badge">Live</div>
+              </div>
+              <h4>Υπολογιστής Τεκμηρίων</h4>
+              <p>Κεντρικό εργαλείο για γρήγορους και καθαρούς υπολογισμούς με άμεσο αποτέλεσμα.</p>
+            </div>
+            <a class="tool-link" href="https://softnet.gr">Άνοιγμα εργαλείου →</a>
+          </article>
+
+          <article class="tool-card">
+            <div>
+              <div class="tool-top">
+                <div class="icon-box">02</div>
+                <div class="badge">Soon</div>
+              </div>
+              <h4>Υπολογισμός ασφαλιστέας αξίας κτηρίων</h4>
+              <p>Εξειδικευμένο utility για ασφαλιστικές εταιρείες, ασφαλιστικούς πραγματογνώμονες και ασφαλιστές, με πρακτική επεξεργασία δεδομένων και γρήγορες συγκρίσεις.</p>
+            </div>
+            <a class="tool-link" href="#launching">Σύντομα διαθέσιμο →</a>
+          </article>
+
+          <article class="tool-card">
+            <div>
+              <div class="tool-top">
+                <div class="icon-box">03</div>
+                <div class="badge">Soon</div>
+              </div>
+              <h4>Valuation Tool</h4>
+              <p>Νέα σελίδα εργαλείου με responsive σχεδιασμό και χώρο για μελλοντική ανάπτυξη.</p>
+            </div>
+            <a class="tool-link" href="#launching">Σύντομα διαθέσιμο →</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="about">
+      <div class="wrap mini-grid">
+        <article class="mini-card">
+          <strong>Καθαρό UI</strong>
+          <p>Μινιμαλιστική παρουσίαση με έμφαση στην ταχύτητα, την αναγνωσιμότητα και τη σοβαρότητα.</p>
+        </article>
+
+        <article class="mini-card">
+          <strong>Responsive εμπειρία</strong>
+          <p>Σωστή εμφάνιση, προσαρμοσμένη αυτόματα για χρήση σε desktop, tablet και smartphone.</p>
+        </article>
+
+        <article class="mini-card">
+          <strong>Συνεχής ανανέωση</strong>
+          <p>Τα εργαλεία ενημερώνονται αδιάλειπτα βάσει των επικαιροποιημένων δεδομένων.</p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    © 2026 neologic.gr — extreme data tools
+<br>
+<br>eleftherios p. eleftheriou
+  </footer>
+
+  <script>
+    document.addEventListener('keydown', function(e) {
+      if ((e.ctrlKey || e.metaKey) && ['s','u','p','c','x'].includes(e.key.toLowerCase())) {
+        e.preventDefault();
+      }
+      if (e.key === 'F12') e.preventDefault();
+    });
+  </script>
+</body>
+</html>
